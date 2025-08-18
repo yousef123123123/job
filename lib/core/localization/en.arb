@@ -1,0 +1,14 @@
+{
+  "app_title": "WhatsApp Local",
+  "home_title": "Chats",
+  "stories_title": "Stories",
+  "settings_title": "Settings",
+  "chat_input_hint": "Type a message",
+  "send": "Send",
+  "typing": "typing...",
+  "online": "Online",
+  "offline": "Offline",
+  "language": "Language",
+  "english": "English",
+  "arabic": "Arabic"
+}
