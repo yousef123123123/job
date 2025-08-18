@@ -1,6 +1,10 @@
+import 'package:hive/hive.dart';
+import '../../data/sources/story_local_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
+import 'package:open_file/open_file.dart';
 import 'dart:io';
 
 import '../../data/models/story_model.dart';
@@ -16,11 +20,22 @@ class StoriesPage extends StatefulWidget {
 
 class _StoriesPageState extends State<StoriesPage> {
   List<StoryModel> _stories = [];
+  late StoryLocalDataSource _localDataSource;
 
   @override
   void initState() {
     super.initState();
-    _stories = List.from(widget.stories);
+    _localDataSource = StoryLocalDataSource(Hive.box<StoryModel>('storiesBox'));
+    final hiveStories = _localDataSource.getAllStories();
+    if (hiveStories.isEmpty && widget.stories.isNotEmpty) {
+      // First run: save model stories to Hive
+      for (final story in widget.stories) {
+        _localDataSource.addStory(story);
+      }
+      _stories = List<StoryModel>.from(widget.stories);
+    } else {
+      _stories = hiveStories;
+    }
   }
 
   Future<void> _addStory(String type) async {
@@ -28,23 +43,25 @@ class _StoriesPageState extends State<StoriesPage> {
     XFile? picked;
     if (type == 'image') {
       picked = await picker.pickImage(source: ImageSource.gallery);
-    } else {
+    } else if (type == 'video') {
       picked = await picker.pickVideo(source: ImageSource.gallery);
     }
     if (picked != null) {
+      final story = StoryModel(
+        name: 'Yousef',
+        id: 'story${DateTime.now().millisecondsSinceEpoch}',
+        userId: 'Yousef',
+        mediaPath: picked.path,
+        timestamp: DateTime.now(),
+        isViewed: false,
+        mediaType: type,
+      );
+      await _localDataSource.addStory(story);
       setState(() {
-        _stories.insert(
-          0,
-          StoryModel(
-            name: 'Yousef',
-            id: 'story${_stories.length + 1}',
-            userId: 'Yousef', // اسم المستخدم بدل id
-            mediaPath: picked?.path ?? '',
-            timestamp: DateTime.now(),
-            isViewed: false,
-            mediaType: type,
-          ),
-        );
+        _stories = [
+          story,
+          ..._localDataSource.getAllStories().where((s) => s.id != story.id),
+        ];
       });
     }
   }
@@ -57,7 +74,10 @@ class _StoriesPageState extends State<StoriesPage> {
           backgroundColor: Colors.black,
           child: story.mediaType == 'image'
               ? Image.file(File(story.mediaPath), fit: BoxFit.contain)
-              : _VideoStoryPlayer(url: story.mediaPath),
+              : _VideoStoryPlayer(
+                  url: story.mediaPath,
+                  isLocal: !story.mediaPath.startsWith('http'),
+                ),
         );
       },
     );
@@ -90,7 +110,26 @@ class _StoriesPageState extends State<StoriesPage> {
         body: StoriesBody(
           stories: _stories,
           onViewStory: _viewStory,
-          onAddStory: (type) => _addStory(type),
+          onAddStory: (type, path) async {
+            final story = StoryModel(
+              name: 'Yousef',
+              id: 'story${DateTime.now().millisecondsSinceEpoch}',
+              userId: 'Yousef',
+              mediaPath: path,
+              timestamp: DateTime.now(),
+              isViewed: false,
+              mediaType: type,
+            );
+            await _localDataSource.addStory(story);
+            setState(() {
+              _stories = [
+                story,
+                ..._localDataSource.getAllStories().where(
+                  (s) => s.id != story.id,
+                ),
+              ];
+            });
+          },
         ),
       ),
     );
@@ -99,36 +138,89 @@ class _StoriesPageState extends State<StoriesPage> {
 
 class _VideoStoryPlayer extends StatefulWidget {
   final String url;
-  const _VideoStoryPlayer({required this.url});
+  final bool isLocal;
+  const _VideoStoryPlayer({required this.url, this.isLocal = false});
   @override
   State<_VideoStoryPlayer> createState() => _VideoStoryPlayerState();
 }
 
 class _VideoStoryPlayerState extends State<_VideoStoryPlayer> {
-  late VideoPlayerController _controller;
+  VideoPlayerController? _controller;
+  ChewieController? _chewieController;
+  String? _error;
+
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.url)
-      ..initialize().then((_) {
-        setState(() {});
-        _controller.play();
+    try {
+      if (widget.isLocal) {
+        _controller = VideoPlayerController.file(File(widget.url));
+      } else {
+        _controller = VideoPlayerController.network(widget.url);
+      }
+      _controller!
+          .initialize()
+          .then((_) {
+            setState(() {
+              _chewieController = ChewieController(
+                videoPlayerController: _controller!,
+                autoPlay: true,
+                looping: false,
+                errorBuilder: (context, errorMessage) {
+                  return _errorWidget();
+                },
+              );
+            });
+          })
+          .catchError((e) {
+            setState(() {
+              _error = 'لا يمكن تشغيل هذا الفيديو على جهازك';
+            });
+          });
+    } catch (e) {
+      setState(() {
+        _error = 'لا يمكن تشغيل هذا الفيديو على جهازك';
       });
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _chewieController?.dispose();
+    _controller?.dispose();
     super.dispose();
+  }
+
+  Widget _errorWidget() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'لا يمكن تشغيل هذا الفيديو على جهازك',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 16),
+        ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+          icon: Icon(Icons.open_in_new),
+          label: Text('فتح الفيديو في تطبيق خارجي'),
+          onPressed: () async {
+            await OpenFile.open(widget.url);
+          },
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return _controller.value.isInitialized
-        ? AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: VideoPlayer(_controller),
-          )
-        : Center(child: CircularProgressIndicator());
+    if (_error != null) {
+      return Center(child: _errorWidget());
+    }
+    if (_chewieController == null || !_controller!.value.isInitialized) {
+      return Center(child: CircularProgressIndicator());
+    }
+    return Chewie(controller: _chewieController!);
   }
 }

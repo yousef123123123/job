@@ -1,4 +1,5 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +17,11 @@ import 'features/chat/data/models/chat_model.dart';
 import 'features/chat/data/models/user_model.dart';
 import 'features/chat/data/models/message_model.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(StoryModelAdapter()); // Register the adapter
+  await Hive.openBox<StoryModel>('storiesBox');
   runApp(MyApp());
 }
 

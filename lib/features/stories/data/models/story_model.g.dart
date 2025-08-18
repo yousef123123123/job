@@ -17,20 +17,20 @@ class StoryModelAdapter extends TypeAdapter<StoryModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return StoryModel(
-      name: fields[6] as String,
       id: fields[0] as String,
       userId: fields[1] as String,
       mediaPath: fields[2] as String,
       timestamp: fields[3] as DateTime,
       isViewed: fields[4] as bool,
-      mediaType: fields[5] as String,
+      name: fields[5] as String,
+      mediaType: fields[6] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, StoryModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -42,6 +42,8 @@ class StoryModelAdapter extends TypeAdapter<StoryModel> {
       ..writeByte(4)
       ..write(obj.isViewed)
       ..writeByte(5)
+      ..write(obj.name)
+      ..writeByte(6)
       ..write(obj.mediaType);
   }
 
