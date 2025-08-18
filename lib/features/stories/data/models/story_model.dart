@@ -13,12 +13,16 @@ class StoryModel extends HiveObject {
   final DateTime timestamp;
   @HiveField(4)
   final bool isViewed;
+
   @HiveField(5)
+  final String name;
+  @HiveField(6)
   final String mediaType; // 'image' or 'video'
 
   StoryModel({
     required this.id,
     required this.userId,
+    required this.name,
     required this.mediaPath,
     required this.timestamp,
     required this.isViewed,

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:job/features/stories/presentation/pages/story_viewer_page.dart';
 import '../../data/models/story_model.dart';
 import 'dart:io';
-import 'story_viewer_page.dart';
 
 class StoriesBody extends StatelessWidget {
   final List<StoryModel> stories;
   final void Function(StoryModel) onViewStory;
+  final void Function(String type)? onAddStory;
   const StoriesBody({
     required this.stories,
     required this.onViewStory,
+    this.onAddStory,
     Key? key,
   }) : super(key: key);
 
@@ -24,7 +26,7 @@ class StoriesBody extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: [
                 _addStatusBox(),
-                _whatsappStatusBox(),
+                // _whatsappStatusBox(),
                 ...stories
                     .map((story) => _storyBox(story, onViewStory, context))
                     .toList(),
@@ -88,10 +90,13 @@ class StoriesBody extends StatelessWidget {
 
   Widget _addStatusBox() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        if (onAddStory != null) {
+          onAddStory!('image');
+        }
+      },
       child: Container(
         width: 100,
-
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey, width: 2),
@@ -119,7 +124,7 @@ class StoriesBody extends StatelessWidget {
             ),
             SizedBox(height: 6),
             Text(
-              'Add status',
+              'My Status',
               style: TextStyle(color: Colors.white, fontSize: 13),
             ),
           ],
@@ -128,42 +133,52 @@ class StoriesBody extends StatelessWidget {
     );
   }
 
-  Widget _whatsappStatusBox() {
-    return Container(
-      width: 100,
-      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFF25D366), width: 1),
-        borderRadius: BorderRadius.circular(18),
-        color: Color(0xFF25D366),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // استخدم صورة PNG بدل SVG
-          Image.network(
-            'https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png',
-            width: 48,
-            height: 48,
-            errorBuilder: (context, error, stackTrace) =>
-                Icon(Icons.error, color: Colors.white, size: 32),
-          ),
-          SizedBox(height: 6),
-          Text('WhatsApp', style: TextStyle(color: Colors.white, fontSize: 13)),
-        ],
-      ),
-    );
-  }
+  // Widget _whatsappStatusBox() {
+  //   return Container(
+  //     width: 100,
+  //     margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+  //     decoration: BoxDecoration(
+  //       border: Border.all(color: Colors.grey, width: 2),
+  //       borderRadius: BorderRadius.circular(18),
+  //       color: Colors.black,
+  //     ),
+  //     child: Column(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: [
+  //         Stack(
+  //           alignment: Alignment.bottomRight,
+  //           children: [
+  //             CircleAvatar(
+  //               radius: 32,
+  //               backgroundImage: NetworkImage(
+  //                 'https://randomuser.me/api/portraits/men/1.jpg',
+  //               ),
+  //             ),
+  //             CircleAvatar(
+  //               radius: 12,
+  //               backgroundColor: Color(0xFF25D366),
+  //               child: Icon(Icons.add, color: Colors.white, size: 16),
+  //             ),
+  //           ],
+  //         ),
+  //         SizedBox(height: 6),
+  //         Text(
+  //           'My status',
+  //           style: TextStyle(color: Colors.white, fontSize: 13),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _storyBox(
     StoryModel story,
     void Function(StoryModel) onViewStory,
     BuildContext context,
   ) {
-    Widget mediaWidget;
     double boxSize = 100;
     double imageSize = 121;
-
+    Widget mediaWidget;
     if (story.mediaPath.isEmpty) {
       mediaWidget = Container(
         width: imageSize,
@@ -183,7 +198,7 @@ class StoriesBody extends StatelessWidget {
           story.mediaPath,
           fit: BoxFit.cover,
           width: imageSize,
-          height: 150,
+          height: 151,
           errorBuilder: (context, error, stackTrace) => Container(
             width: imageSize,
             height: imageSize,
@@ -196,7 +211,7 @@ class StoriesBody extends StatelessWidget {
           File(story.mediaPath),
           fit: BoxFit.cover,
           width: imageSize,
-          height: imageSize,
+          height: 150,
           errorBuilder: (context, error, stackTrace) => Container(
             width: imageSize,
             height: imageSize,
@@ -222,6 +237,7 @@ class StoriesBody extends StatelessWidget {
         ],
       );
     }
+    String displayName = story.name ?? story.userId;
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
@@ -231,31 +247,17 @@ class StoriesBody extends StatelessWidget {
       child: Container(
         width: boxSize,
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: story.isViewed ? Colors.grey : Color(0xFF25D366),
-            width: 1.2,
-          ),
-          borderRadius: BorderRadius.circular(18),
-          color: Colors.black,
-        ),
+        // decoration: BoxDecoration(
+        //   border: Border.all(
+        //     color: story.isViewed ? Colors.grey : Color(0xFF25D366),
+        //     width: 1.2,
+        //   ),
+        //   borderRadius: BorderRadius.circular(18),
+        //   color: Colors.black,
+        // ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Padding(
-            //   padding: EdgeInsets.only(top: 8, left: 4, right: 4, bottom: 4),
-            //   child: Text(
-            //     story.userId,
-            //     style: TextStyle(
-            //       color: Colors.white,
-            //       fontWeight: FontWeight.bold,
-            //       fontSize: 14,
-            //     ),
-            //     overflow: TextOverflow.ellipsis,
-            //     maxLines: 1,
-            //     textAlign: TextAlign.center,
-            //   ),
-            // ),
             Stack(
               children: [
                 ClipRRect(
@@ -272,7 +274,7 @@ class StoriesBody extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      story.userId,
+                      displayName,
                       maxLines: 1,
                       style: TextStyle(
                         color: Colors.white,
@@ -298,7 +300,7 @@ Widget channelTile(String name, String desc, String time, int count) {
     'tawzeefy | توظيفي': 'https://randomuser.me/api/portraits/men/12.jpg',
     'Job Hunters 🚀🔥': 'https://randomuser.me/api/portraits/men/13.jpg',
     'Real Madrid C.F.':
-        'https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg',
+        'https://i.pinimg.com/736x/e3/6d/c0/e36dc00f0747a942eb74d90c2f24d3bb.jpg',
     'المجموعة المعالي للتوظيف':
         'https://randomuser.me/api/portraits/men/14.jpg',
   };

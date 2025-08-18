@@ -36,8 +36,9 @@ class _StoriesPageState extends State<StoriesPage> {
         _stories.insert(
           0,
           StoryModel(
+            name: 'Yousef',
             id: 'story${_stories.length + 1}',
-            userId: 'me',
+            userId: 'Yousef', // اسم المستخدم بدل id
             mediaPath: picked?.path ?? '',
             timestamp: DateTime.now(),
             isViewed: false,
@@ -86,7 +87,11 @@ class _StoriesPageState extends State<StoriesPage> {
             ),
           ],
         ),
-        body: StoriesBody(stories: _stories, onViewStory: _viewStory),
+        body: StoriesBody(
+          stories: _stories,
+          onViewStory: _viewStory,
+          onAddStory: (type) => _addStory(type),
+        ),
       ),
     );
   }

@@ -171,6 +171,7 @@ class _MyAppState extends State<MyApp> {
       (i) => StoryModel(
         id: 'story${i + 1}',
         userId: dummyUsers[i].id,
+        name: dummyUsers[i].name,
         mediaPath: storyMedia[i],
         timestamp: DateTime.now().subtract(Duration(hours: i)),
         isViewed: i % 2 == 0,

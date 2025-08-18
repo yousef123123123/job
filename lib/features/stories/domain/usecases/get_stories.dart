@@ -7,16 +7,17 @@ class GetStories {
   GetStories(this.repository);
 
   List<Story> call() {
-    // تحويل StoryModel إلى Story إذا لزم الأمر
     return repository
         .getAllStories()
         .map(
           (storyModel) => Story(
+            name: storyModel.name,
             id: storyModel.id,
             userId: storyModel.userId,
             mediaPath: storyModel.mediaPath,
             timestamp: storyModel.timestamp,
             isViewed: storyModel.isViewed,
+            mediaType: storyModel.mediaType, // أضف هذا السطر
           ),
         )
         .toList();
