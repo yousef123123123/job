@@ -3,6 +3,18 @@ import 'package:intl/intl.dart';
 import 'dart:async';
 
 class AppLocalizations {
+  String get communicationsTitle =>
+      locale.languageCode == 'ar' ? 'جهات الاتصال' : 'Communications';
+  String get callsTitle => locale.languageCode == 'ar' ? 'المكالمات' : 'Calls';
+  String get screenNotImplemented => locale.languageCode == 'ar'
+      ? 'هذه الشاشة لم يتم تنفيذها بعد'
+      : 'This screen is not implemented yet';
+  String get newGroup =>
+      locale.languageCode == 'ar' ? 'مجموعة جديدة' : 'New Group';
+  String get newBroadcast =>
+      locale.languageCode == 'ar' ? 'بث جديد' : 'New Broadcast';
+  String get linkedDevices =>
+      locale.languageCode == 'ar' ? 'الأجهزة المرتبطة' : 'Linked Devices';
   final Locale locale;
   AppLocalizations(this.locale);
 
@@ -15,20 +27,13 @@ class AppLocalizations {
 
   static const supportedLocales = [Locale('en'), Locale('ar')];
 
-  String get appTitle => Intl.message(
-    'WhatsApp Local',
-    name: 'app_title',
-    locale: locale.toString(),
-  );
-  String get homeTitle =>
-      Intl.message('Chats', name: 'home_title', locale: locale.toString());
+  String get appTitle =>
+      locale.languageCode == 'ar' ? 'واتساب المحلي' : 'WhatsApp Local';
+  String get homeTitle => locale.languageCode == 'ar' ? 'الدردشات' : 'Chats';
   String get storiesTitle =>
-      Intl.message('Stories', name: 'stories_title', locale: locale.toString());
-  String get settingsTitle => Intl.message(
-    'Settings',
-    name: 'settings_title',
-    locale: locale.toString(),
-  );
+      locale.languageCode == 'ar' ? 'الحالات' : 'Stories';
+  String get settingsTitle =>
+      locale.languageCode == 'ar' ? 'الإعدادات' : 'Settings';
   String get chatInputHint => Intl.message(
     'Type a message',
     name: 'chat_input_hint',

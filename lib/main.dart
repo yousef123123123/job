@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
     if (locale != null) {
       setState(() {
         _locale = locale;
+        // إعادة بناء التطبيق بالكامل
       });
     }
   }
@@ -42,6 +43,7 @@ class _MyAppState extends State<MyApp> {
     if (mode != null) {
       setState(() {
         _themeMode = mode;
+        // إعادة بناء التطبيق بالكامل
       });
     }
   }
@@ -63,8 +65,9 @@ class _MyAppState extends State<MyApp> {
       ),
       UserModel(
         id: 'user2',
-        name: 'Sara',
-        avatarPath: 'https://randomuser.me/api/portraits/women/2.jpg',
+        name: 'Salah',
+        avatarPath:
+            'https://www.discoverwalks.com/blog/wp-content/uploads/2021/10/mohamed_salah_2018.jpg',
         isOnline: false,
       ),
       UserModel(
@@ -75,7 +78,7 @@ class _MyAppState extends State<MyApp> {
       ),
       UserModel(
         id: 'user4',
-        name: 'Mona',
+        name: 'جووو',
         avatarPath: 'https://randomuser.me/api/portraits/women/4.jpg',
         isOnline: true,
       ),
@@ -111,22 +114,22 @@ class _MyAppState extends State<MyApp> {
       ),
       UserModel(
         id: 'user10',
-        name: 'Rania',
+        name: 'ٍسلوي',
         avatarPath: 'https://randomuser.me/api/portraits/women/10.jpg',
         isOnline: false,
       ),
     ];
     final egyptianMessages = [
-      'عامل ايه يا صاحبي؟',
+      'عامل ايه يا نجم واحشناااي ؟',
       'وحشتني والله!',
       'فينك مختفي كده؟',
       'تعالى نقعد على القهوة النهاردة',
       'شفت ماتش الأهلي امبارح؟',
       'هاتلي معاك سندوتش فول وانت جاي',
-      'الدنيا حر موت هنا',
-      'عايزين نطلع رحلة قريب',
-      'ابعتلي الصور اللي صورناها',
-      'هكلمك بعدين، عندي شغل دلوقتي',
+      'الدنيا حر موووووت هنا',
+      'عايزين نطلع دهب قريب',
+      'ابعتلي الصور اللي اتصورناها',
+      'هكلمك بعدين، عندي صدااع دلوقتي',
     ];
     final dummyChats = List.generate(
       10,
@@ -151,16 +154,14 @@ class _MyAppState extends State<MyApp> {
       ),
     );
     final storyMedia = [
-      // صور
       'https://randomuser.me/api/portraits/men/1.jpg',
+      'https://www.discoverwalks.com/blog/wp-content/uploads/2021/10/mohamed_salah_2018.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf0wwp8qMjs92mR6lKflihcc5xLcMJBg5CzQ&s',
+      'https://www.discoverwalks.com/blog/wp-content/uploads/2022/02/abdel-fattah-el-sisi-wikipedia.jpg',
       'https://randomuser.me/api/portraits/women/2.jpg',
       'https://randomuser.me/api/portraits/men/3.jpg',
       'https://randomuser.me/api/portraits/women/4.jpg',
-      // فيديوهات  من النت
-      'https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_1mb.mp4',
-      'https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_2mb.mp4',
-      'https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_3mb.mp4',
-      // صور
+
       'https://randomuser.me/api/portraits/men/5.jpg',
       'https://randomuser.me/api/portraits/women/6.jpg',
       'https://randomuser.me/api/portraits/men/7.jpg',
@@ -211,7 +212,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context) {
           final loc = AppLocalizations.of(context);
           return Scaffold(
-            body: pages[_selectedIndex],
+            body: _selectedIndex < 2 ? pages[_selectedIndex] : pages[0],
             bottomNavigationBar: Container(
               decoration: BoxDecoration(
                 color: Color(0xFF222E35),
@@ -219,7 +220,23 @@ class _MyAppState extends State<MyApp> {
               ),
               child: BottomNavigationBar(
                 currentIndex: _selectedIndex,
-                onTap: _onTabSelected,
+                onTap: (index) {
+                  if (index == 2 || index == 3) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          loc?.screenNotImplemented ??
+                              'هذه الشاشة لم يتم تنفيذها بعد',
+                          textAlign: TextAlign.center,
+                        ),
+                        backgroundColor: Color(0xFF075E54),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    _onTabSelected(index);
+                  }
+                },
                 backgroundColor: Colors.transparent,
                 selectedItemColor: Color(0xFF25D366),
                 unselectedItemColor: Colors.white70,
@@ -228,13 +245,19 @@ class _MyAppState extends State<MyApp> {
                 items: [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.chat),
-                    label: 'Chats',
+                    label: loc?.homeTitle ?? 'Chats',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.circle_outlined,
-                    ), // WhatsApp-style status icon
-                    label: 'Updates',
+                    icon: Icon(Icons.circle_outlined),
+                    label: loc?.storiesTitle ?? 'Updates',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.people_alt_outlined),
+                    label: loc?.communicationsTitle ?? 'Communications',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.call),
+                    label: loc?.callsTitle ?? 'Calls',
                   ),
                 ],
               ),
