@@ -1,17 +1,11 @@
+import 'package:job/widgets/_nav_bar_updates_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:job/core/localization/app_localizations.dart';
 import 'package:job/core/theme/app_theme.dart';
-import 'package:job/features/chat/data/models/chat_model.dart';
-import 'package:job/features/chat/data/models/message_model.dart';
-import 'package:job/features/chat/data/models/user_model.dart';
-import 'package:job/features/chat/domain/usecases/get_chats.dart';
-import 'package:job/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:job/features/chat/presentation/pages/home_page.dart';
-import 'package:job/features/stories/data/models/story_model.dart';
 import 'package:job/features/stories/presentation/pages/stories_page.dart';
-import 'package:job/widgets/mock_repo.dart';
+import 'package:job/features/stories/data/models/story_model.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -20,15 +14,52 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale _locale = const Locale('en');
-  ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode _themeMode = ThemeMode.dark;
   int _selectedIndex = 0;
-  bool isSelectedIcon = false;
+
+  void _onTabSelected(int index, BuildContext context) {
+    if (index == 2 || index == 3) {
+      final loc = AppLocalizations.of(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          content: Container(
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF075E54), // WhatsApp dark green
+                  Color(0xFF25D366), // WhatsApp light green
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+            ),
+            child: Text(
+              loc?.screenNotImplemented ?? 'Not implemented',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   void _onLocaleChanged(Locale? locale) {
     if (locale != null) {
       setState(() {
         _locale = locale;
-        // إعادة بناء التطبيق بالكامل
       });
     }
   }
@@ -37,159 +68,71 @@ class _MyAppState extends State<MyApp> {
     if (mode != null) {
       setState(() {
         _themeMode = mode;
-        // إعادة بناء التطبيق بالكامل
       });
     }
   }
 
-  void _onTabSelected(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final dummyUsers = [
-      UserModel(
-        id: 'user1',
-        name: 'Joooo',
-        avatarPath:
-            'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/347413470_6382903195124063_7282368361415306080_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=ctZoHexm8gEQ7kNvwEgi5mL&_nc_oc=AdkjOhXXgfg-af6PbwjwOVJlRmw2tOWBkIhLn7lMoUoXIM0J1hoVsz55mjBlIN8GbEY&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=Cj5hSKW172W253oUUB6QvQ&oh=00_AfXEPL9mU-TzyR_ybmtkOODnw4NyI5LOavCqGYoUfbpR3Q&oe=68AAB343',
-        isOnline: true,
+    final dummyStories = [
+      StoryModel(
+        id: 'story1',
+        userId: 'user1',
+        name: 'Yousef',
+        mediaPath: 'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/387755825_1608735739657875_517741673334542787_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=rrr_fyX3oJQQ7kNvwFvWI5X&_nc_oc=AdkuyVBDB5MeHv68SKvWAd60QZj_GctkSgVsr0P-2F6IrQmdwk5sllokwCXE5pGf4u8&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=Eb-vhFOTMkjKPy2ktOtLxw&oh=00_AfUk3f1WlZYOec4fEi7w6Y_sEXfz8sa8vAVmPfiu59EzOg&oe=68AB1446',
+        timestamp: DateTime.now().subtract(Duration(hours: 1)),
+        isViewed: false,
+        mediaType: 'image',
       ),
-      UserModel(
-        id: 'user2',
-        name: 'Salah',
-        avatarPath:
-            'https://www.discoverwalks.com/blog/wp-content/uploads/2021/10/mohamed_salah_2018.jpg',
-        isOnline: false,
+      StoryModel(
+        id: 'story2',
+        userId: 'user2',
+        name: 'Abdallah Essa',
+        mediaPath: 'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/502659506_2228163400935859_1315357540697861294_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=g5mPk-KtL_wQ7kNvwEK8B7j&_nc_oc=Admj2xGPTDe2tyIrDTxjBSUzVZLj8O0Y0ZJwoODKkFuVuaKRJWVrBjmfYHmpe-bcwho&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=PotPROE46erSf8bjDtd8GQ&oh=00_AfU-ptD-hqIfH5hTmv21qxj4PZvc8FzRJvFfPj_zyq45Iw&oe=68AB139C',
+        timestamp: DateTime.now().subtract(Duration(hours: 2)),
+        isViewed: true,
+        mediaType: 'image',
       ),
-      UserModel(
-        id: 'user3',
-        name: 'Ali',
-        avatarPath: 'https://randomuser.me/api/portraits/men/3.jpg',
-        isOnline: true,
-      ),
-      UserModel(
-        id: 'user4',
-        name: 'جووو',
-        avatarPath: 'https://randomuser.me/api/portraits/women/4.jpg',
-        isOnline: true,
-      ),
-      UserModel(
-        id: 'user5',
-        name: 'Omar',
-        avatarPath: 'https://randomuser.me/api/portraits/men/5.jpg',
-        isOnline: false,
-      ),
-      UserModel(
-        id: 'user6',
-        name: 'Loly',
-        avatarPath: 'https://randomuser.me/api/portraits/women/6.jpg',
-        isOnline: true,
-      ),
-      UserModel(
-        id: 'user7',
-        name: 'Hassan',
-        avatarPath: 'https://randomuser.me/api/portraits/men/7.jpg',
-        isOnline: false,
-      ),
-      UserModel(
-        id: 'user8',
-        name: 'Noura',
-        avatarPath: 'https://randomuser.me/api/portraits/women/8.jpg',
-        isOnline: true,
-      ),
-      UserModel(
-        id: 'user9',
-        name: 'Osos',
-        avatarPath: 'https://randomuser.me/api/portraits/men/9.jpg',
-        isOnline: true,
-      ),
-      UserModel(
-        id: 'user10',
-        name: 'ٍسلوي',
-        avatarPath: 'https://randomuser.me/api/portraits/women/10.jpg',
-        isOnline: false,
+      StoryModel(
+        id: 'story3',
+        userId: 'user3',
+        name: 'Saber ',
+        mediaPath: 'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/506804367_2079200242566177_1949159825969359624_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=IB1o2R_ELwUQ7kNvwGtPbO-&_nc_oc=Adl4FsOVg4vufeBuG-XDxPmaxYbd4e7OWcfojsbqL-3kZRUgT-mKZ-A4lAXrmyQbHDg&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=k8-cd07nEWS9Ac7lp2Rbhw&oh=00_AfXFW9bwNWS-c-l-DMboFvyPWGfFesDybz-BDzSEnRsVKA&oe=68AB174A',
+        timestamp: DateTime.now().subtract(Duration(hours: 3)),
+        isViewed: false,
+        mediaType: 'image',
       ),
     ];
-    final egyptianMessages = [
-      'عامل ايه يا نجم واحشناااي ؟',
-      'وحشتني والله!',
-      'فينك مختفي كده؟',
-      'تعالى نقعد على القهوة النهاردة',
-      'شفت ماتش الأهلي امبارح؟',
-      'هاتلي معاك سندوتش فول وانت جاي',
-      'الدنيا حر موووووت هنا',
-      'عايزين نطلع دهب قريب',
-      'ابعتلي الصور اللي اتصورناها',
-      'هكلمك بعدين، عندي صدااع دلوقتي',
-    ];
-    final dummyChats = List.generate(
-      10,
-      (i) => ChatModel(
-        id: 'chat${i + 1}',
-        userId: dummyUsers[i].id,
-        unreadCount: (i % 4),
-        messages: List.generate(
-          7,
-          (j) => MessageModel(
-            id: 'msg${i}_${j}',
-            chatId: 'chat${i + 1}',
-            senderId: j % 2 == 0 ? 'me' : dummyUsers[i].id,
-            text: egyptianMessages[(j + i) % egyptianMessages.length],
-            mediaPath: null,
-            voicePath: null,
-            timestamp: DateTime.now().subtract(Duration(minutes: 10 * (7 - j))),
-            isSeen: j % 3 != 0,
-            isMine: j % 2 == 0,
-          ),
-        ),
-      ),
-    );
-    final storyMedia = [
-      'https://randomuser.me/api/portraits/men/1.jpg',
-      'https://www.discoverwalks.com/blog/wp-content/uploads/2021/10/mohamed_salah_2018.jpg',
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf0wwp8qMjs92mR6lKflihcc5xLcMJBg5CzQ&s',
-      'https://www.discoverwalks.com/blog/wp-content/uploads/2022/02/abdel-fattah-el-sisi-wikipedia.jpg',
-      'https://randomuser.me/api/portraits/women/2.jpg',
-      'https://randomuser.me/api/portraits/men/3.jpg',
-      'https://randomuser.me/api/portraits/women/4.jpg',
-
-      'https://randomuser.me/api/portraits/men/5.jpg',
-      'https://randomuser.me/api/portraits/women/6.jpg',
-      'https://randomuser.me/api/portraits/men/7.jpg',
-    ];
-    final dummyStories = List.generate(
-      10,
-      (i) => StoryModel(
-        id: 'story${i + 1}',
-        userId: dummyUsers[i].id,
-        name: dummyUsers[i].name,
-        mediaPath: storyMedia[i],
-        timestamp: DateTime.now().subtract(Duration(hours: i)),
-        isViewed: i % 2 == 0,
-        mediaType: storyMedia[i].endsWith('.mp4') ? 'video' : 'image',
-      ),
-    );
     final pages = [
-      BlocProvider(
-        create: (context) {
-          final getChats = GetChats(MockChatRepository(dummyChats));
-          final cubit = ChatCubit(getChats);
-          cubit.loadChats();
-          return cubit;
-        },
-        child: HomePage(
-          dummyChats: dummyChats,
-          onLocaleChanged: _onLocaleChanged,
-          onThemeChanged: _onThemeChanged,
-          currentLocale: _locale,
-          currentThemeMode: _themeMode,
-        ),
+      HomePage(
+        onLocaleChanged: _onLocaleChanged,
+        onThemeChanged: _onThemeChanged,
+        currentLocale: _locale,
+        currentThemeMode: _themeMode,
       ),
       StoriesPage(stories: dummyStories),
+      Builder(
+        builder: (context) {
+          final loc = AppLocalizations.of(context);
+          return Center(
+            child: Text(
+              loc?.communicationsTitle ?? 'Communications',
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        },
+      ),
+      Builder(
+        builder: (context) {
+          final loc = AppLocalizations.of(context);
+          return Center(
+            child: Text(
+              loc?.callsTitle ?? 'Calls',
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        },
+      ),
     ];
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -207,64 +150,38 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       home: Builder(
         builder: (context) {
+          final isDark = Theme.of(context).brightness == Brightness.dark;
+          final navBarColor = isDark ? Color(0xFF222E35) : Colors.white;
           final loc = AppLocalizations.of(context);
           return Scaffold(
-            body: _selectedIndex < 2 ? pages[_selectedIndex] : pages[0],
-            bottomNavigationBar: Container(
-              decoration: BoxDecoration(
-                color: Color(0xFF222E35),
-                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 2)],
-              ),
-              child: BottomNavigationBar(
-                currentIndex: _selectedIndex,
-                onTap: (index) {
-                  if (index == 2 || index == 3) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          loc?.screenNotImplemented ??
-                              'هذه الشاشة لم يتم تنفيذها بعد',
-                          textAlign: TextAlign.center,
-                        ),
-                        backgroundColor: Color(0xFF075E54),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  } else {
-                    _onTabSelected(index);
-                  }
-                },
-                backgroundColor: Colors.transparent,
-                selectedItemColor: Color(0xFF25D366),
-                unselectedItemColor: Colors.white70,
-                showUnselectedLabels: true,
-                type: BottomNavigationBarType.fixed,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.chat),
-                    label: loc?.homeTitle ?? 'Chats',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Image.asset(
-                      'assets/images/updates.png',
-                      // color:
-                      color: Color(0xFF25D366),
-                      // color: Colors.white70,
-                      width: 28,
-                      height: 28,
-                    ),
-                    label: loc?.storiesTitle ?? 'stories_title',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.people_alt_outlined),
-                    label: loc?.communicationsTitle ?? 'Communications',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.call),
-                    label: loc?.callsTitle ?? 'Calls',
-                  ),
-                ],
-              ),
+            backgroundColor: isDark ? Color(0xFF111B21) : Color(0xFFF0F0F0),
+            body: pages[_selectedIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: navBarColor,
+              selectedItemColor: Color(0xFF25D366),
+              unselectedItemColor: isDark ? Colors.white70 : Color(0xFF667781),
+              showUnselectedLabels: true,
+              type: BottomNavigationBarType.fixed,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.chat),
+                  label: loc?.homeTitle ?? 'Chats',
+                ),
+                BottomNavigationBarItem(
+                  icon: NavBarUpdatesIcon(selected: _selectedIndex == 1),
+                  label: loc?.storiesTitle ?? 'Stories',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.people_alt_outlined),
+                  label: loc?.communicationsTitle ?? 'Communications',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.call),
+                  label: loc?.callsTitle ?? 'Calls',
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              onTap: (i) => _onTabSelected(i, context),
             ),
           );
         },

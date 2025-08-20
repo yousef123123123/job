@@ -250,7 +250,7 @@ class StoriesBody extends StatelessWidget {
       onTap: () async {
         if (onAddStory != null) {
           FilePickerResult? result = await FilePicker.platform.pickFiles(
-            type: FileType.image, 
+            type: FileType.image,
             allowMultiple: false,
           );
           if (result != null && result.files.isNotEmpty) {
@@ -311,7 +311,6 @@ class StoriesBody extends StatelessWidget {
       ),
     );
   }
-
 }
 
 Widget channelTile(String name, String desc, String time, int count) {
@@ -323,44 +322,54 @@ Widget channelTile(String name, String desc, String time, int count) {
         'https://i.pinimg.com/736x/e3/6d/c0/e36dc00f0747a942eb74d90c2f24d3bb.jpg',
     'امجموعة المعالي للتوظيف': 'https://randomuser.me/api/portraits/men/14.jpg',
   };
-  return ListTile(
-    leading: CircleAvatar(
-      backgroundImage: NetworkImage(
-        channelImages[name] ?? 'https://randomuser.me/api/portraits/men/15.jpg',
-      ),
-      radius: 22,
-    ),
-    title: Text(
-      name,
-      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      overflow: TextOverflow.ellipsis,
-      maxLines: 1,
-    ),
-    subtitle: Text(
-      desc,
-      style: TextStyle(color: Colors.white70),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    ),
-    trailing: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(time, style: TextStyle(color: Colors.greenAccent, fontSize: 12)),
-        SizedBox(height: 4),
-        Container(
-          decoration: BoxDecoration(
-            color: Color(0xFF222E35),
-            borderRadius: BorderRadius.circular(12),
+  return Builder(
+    builder: (context) {
+      final isDark = Theme.of(context).brightness == Brightness.dark;
+      final titleColor = isDark ? Colors.white : Color(0xFF222E35);
+      final subtitleColor = isDark ? Colors.white70 : Color(0xFF4A4A4A);
+      final accentColor = isDark ? Colors.greenAccent : Color(0xFF25D366);
+      final badgeBg = isDark ? Color(0xFF222E35) : Color(0xFFECE5DD);
+      return ListTile(
+        leading: CircleAvatar(
+          backgroundImage: NetworkImage(
+            channelImages[name] ??
+                'https://randomuser.me/api/portraits/men/15.jpg',
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            child: Text(
-              '$count',
-              style: TextStyle(color: Colors.greenAccent, fontSize: 12),
-            ),
-          ),
+          radius: 22,
         ),
-      ],
-    ),
+        title: Text(
+          name,
+          style: TextStyle(color: titleColor, fontWeight: FontWeight.bold),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+        subtitle: Text(
+          desc,
+          style: TextStyle(color: subtitleColor),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(time, style: TextStyle(color: accentColor, fontSize: 12)),
+            SizedBox(height: 4),
+            Container(
+              decoration: BoxDecoration(
+                color: badgeBg,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                child: Text(
+                  '$count',
+                  style: TextStyle(color: accentColor, fontSize: 12),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
   );
 }

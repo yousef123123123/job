@@ -68,14 +68,10 @@ class SettingsBody extends StatelessWidget {
               ),
               trailing: DropdownButtonHideUnderline(
                 child: DropdownButton<ThemeMode>(
-                  value: currentThemeMode,
+                  value: currentThemeMode == ThemeMode.system
+                      ? ThemeMode.dark
+                      : currentThemeMode,
                   items: [
-                    DropdownMenuItem(
-                      child: Text(
-                        loc.locale.languageCode == 'ar' ? 'النظام' : 'System',
-                      ),
-                      value: ThemeMode.system,
-                    ),
                     DropdownMenuItem(
                       child: Text(
                         loc.locale.languageCode == 'ar' ? 'فاتح' : 'Light',

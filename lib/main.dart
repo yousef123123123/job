@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:job/widgets/my_app_widget.dart';
 
-import 'features/chat/data/models/chat_model.dart';
 import 'features/chat/data/models/message_model.dart';
-import 'features/chat/data/repositories/chat_repository_impl.dart';
+
 import 'features/stories/data/models/story_model.dart';
 import 'widgets/portrait_lock.dart';
 

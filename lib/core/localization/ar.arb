@@ -12,5 +12,6 @@
   "english": "الإنجليزية",
   "arabic": "العربية",
   "voice_message": "رسالة صوتية",
-  "image_message": "صورة"
+  "image_message": "صورة",
+  "not_implemented": "هذه الشاشة لم يتم تنفيذها بعد"
 }

@@ -10,9 +10,11 @@ class AppLocalizations {
   String get communicationsTitle =>
       locale.languageCode == 'ar' ? 'جهات الاتصال' : 'Communications';
   String get callsTitle => locale.languageCode == 'ar' ? 'المكالمات' : 'Calls';
-  String get screenNotImplemented => locale.languageCode == 'ar'
-      ? 'هذه الشاشة لم يتم تنفيذها بعد'
-      : 'This screen is not implemented yet';
+  String get screenNotImplemented => Intl.message(
+    'This screen is not implemented yet',
+    name: 'not_implemented',
+    locale: locale.toString(),
+  );
   String get newGroup =>
       locale.languageCode == 'ar' ? 'مجموعة جديدة' : 'New Group';
   String get newBroadcast =>
@@ -37,11 +39,16 @@ class AppLocalizations {
       locale.languageCode == 'ar' ? 'الحالات' : 'Updates';
   String get settingsTitle =>
       locale.languageCode == 'ar' ? 'الإعدادات' : 'Settings';
-  String get chatInputHint => Intl.message(
-    'Type a message',
-    name: 'chat_input_hint',
-    locale: locale.toString(),
-  );
+  String get chatInputHint =>
+      locale.languageCode == 'ar' ? 'أدخل رسالتك' : 'Message';
+
+  // String get chatInputHint => Intl.message(
+  //   'Message',
+  //   name: 'chat_input_hint',
+  //   locale: locale.toString(),
+  // );
+  String get lastSeen =>
+      Intl.message('آخر ظهور', name: 'last_seen', locale: locale.toString());
   String get send =>
       Intl.message('Send', name: 'send', locale: locale.toString());
   String get typing =>

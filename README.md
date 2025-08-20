@@ -13,6 +13,12 @@ Offline Data Persistence: Your use of Hive as an offline database is an excellen
 Intuitive UI & Adaptive Theming: Features a user interface that faithfully reproduces WhatsApp's navigation patterns and AppBar design. The application seamlessly supports both light and dark modes to provide a comfortable viewing experience in any environment.
 
 
+
+
+
+add Sound Effect when Send Any Message AnyType text, Image  , Voice Note.
+
+
 Multi-Language Support: Demonstrates strong localization capabilities by offering seamless support for both Arabic and English languages, ensuring a wider and more accessible user base.
 
 Efficient Local Storage: Utilizes the Hive database for fast and reliable local data persistence. This ensures that chat history and user data are securely stored on the device, providing a smooth and responsive experience even when offline.

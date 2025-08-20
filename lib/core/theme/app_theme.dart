@@ -6,7 +6,7 @@ class AppTheme {
     colorScheme: ColorScheme.light(
       primary: Color(0xFF075E54),
       secondary: Color(0xFF25D366),
-      background: Color(0xFFEFEFEF),
+      background: Color.fromARGB(255, 219, 211, 211),
     ),
     fontFamily: 'Roboto',
     useMaterial3: true,

@@ -51,9 +51,14 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     if (widget.dummyChats.isEmpty) {
       return Center(
-        child: Text('لا يوجد محادثات', style: TextStyle(color: Colors.white)),
+        child: Text(
+          'لا يوجد محادثات',
+          style: TextStyle(color: isDark ? Colors.white : Color(0xFF111B21)),
+        ),
       );
     }
     return ListView.builder(
@@ -75,16 +80,26 @@ class _HomeBodyState extends State<HomeBody> {
           if (lastMsg.voicePath != null && lastMsg.voicePath!.isNotEmpty) {
             lastMsgWidget = Row(
               children: [
-                Icon(Icons.mic, color: Colors.grey[400], size: 18),
+                Icon(
+                  Icons.mic,
+                  color: isDark ? Colors.grey[400] : Color(0xFF8696A0),
+                  size: 18,
+                ),
                 SizedBox(width: 4),
                 Text(
                   loc.voiceMessage,
-                  style: TextStyle(color: Colors.grey[300], fontSize: 13),
+                  style: TextStyle(
+                    color: isDark ? Colors.grey[300] : Color(0xFF667781),
+                    fontSize: 13,
+                  ),
                 ),
                 Spacer(),
                 Text(
                   lastMsgTime,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 12),
+                  style: TextStyle(
+                    color: isDark ? Colors.grey[400] : Color(0xFF8696A0),
+                    fontSize: 12,
+                  ),
                 ),
               ],
             );
@@ -92,16 +107,26 @@ class _HomeBodyState extends State<HomeBody> {
               lastMsg.mediaPath!.isNotEmpty) {
             lastMsgWidget = Row(
               children: [
-                Icon(Icons.image, color: Colors.grey[400], size: 20),
+                Icon(
+                  Icons.image,
+                  color: isDark ? Colors.grey[400] : Color(0xFF8696A0),
+                  size: 20,
+                ),
                 SizedBox(width: 4),
                 Text(
                   loc.imageMessage,
-                  style: TextStyle(color: Colors.grey[300], fontSize: 13),
+                  style: TextStyle(
+                    color: isDark ? Colors.grey[300] : Color(0xFF667781),
+                    fontSize: 13,
+                  ),
                 ),
                 Spacer(),
                 Text(
                   lastMsgTime,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 12),
+                  style: TextStyle(
+                    color: isDark ? Colors.grey[400] : Color(0xFF8696A0),
+                    fontSize: 12,
+                  ),
                 ),
               ],
             );
@@ -111,7 +136,10 @@ class _HomeBodyState extends State<HomeBody> {
                 Expanded(
                   child: Text(
                     lastMsg.text,
-                    style: TextStyle(color: Colors.white, fontSize: 13),
+                    style: TextStyle(
+                      color: isDark ? Colors.white : Color(0xFF667781),
+                      fontSize: 13,
+                    ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
@@ -119,97 +147,228 @@ class _HomeBodyState extends State<HomeBody> {
                 SizedBox(width: 8),
                 Text(
                   lastMsgTime,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 12),
+                  style: TextStyle(
+                    color: isDark ? Colors.grey[400] : Color(0xFF8696A0),
+                    fontSize: 12,
+                  ),
                 ),
               ],
             );
           }
         }
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundImage: user.avatarPath.startsWith('http')
-                ? NetworkImage(user.avatarPath)
-                : FileImage(File(user.avatarPath)) as ImageProvider,
-            radius: 26,
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(
-                  user.name,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+        return Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (ctx) => Dialog(
+                    backgroundColor: Colors.transparent,
+                    insetPadding: EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 80,
+                    ),
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.45),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(12),
+                                    topRight: Radius.circular(12),
+                                  ),
+                                ),
+                                child: Text(
+                                  user.name + (user.id == 'me' ? ' (You)' : ''),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    shadows: [
+                                      Shadow(
+                                        blurRadius: 2,
+                                        color: Colors.black,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(0),
+                                child: user.avatarPath.startsWith('http')
+                                    ? Image.network(
+                                        user.avatarPath,
+                                        fit: BoxFit.cover,
+                                        height: 260,
+                                        width: double.infinity,
+                                      )
+                                    : Image.file(
+                                        File(user.avatarPath),
+                                        fit: BoxFit.cover,
+                                        height: 260,
+                                        width: double.infinity,
+                                      ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 0,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(12),
+                                    bottomRight: Radius.circular(12),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.chat,
+                                        color: Color(0xFF25D366),
+                                        size: 28,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        // Open chat
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) => ChatPage(
+                                              messages: chatMessages,
+                                              chatId: chatModel.id,
+                                              user: user,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.info_outline,
+                                        color: Color(0xFF25D366),
+                                        size: 28,
+                                      ),
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  overflow: TextOverflow.ellipsis,
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12.0, right: 0),
+                child: CircleAvatar(
+                  backgroundImage: user.avatarPath.startsWith('http')
+                      ? NetworkImage(user.avatarPath)
+                      : FileImage(File(user.avatarPath)) as ImageProvider,
+                  radius: 26,
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  if (chatModel.unreadCount > 0)
-                    Container(
-                      margin: EdgeInsets.only(bottom: 2),
-                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF25D366),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: ListTile(
+                contentPadding: EdgeInsets.only(left: 0, right: 8),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
                       child: Text(
-                        '${chatModel.unreadCount}',
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        user.name,
+                        style: TextStyle(
+                          color: isDark ? Colors.white : Color(0xFF111B21),
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  // if (lastMsgTime.isNotEmpty)
-                  //   Text(
-                  //     lastMsgTime,
-                  //     style: TextStyle(
-                  //       color: Colors.grey[400],
-                  //       fontSize: 12,
-                  //       fontWeight: chatModel.unreadCount > 0
-                  //           ? FontWeight.bold
-                  //           : FontWeight.normal,
-                  //     ),
-                  //   ),
-                ],
-              ),
-            ],
-          ),
-          subtitle: Row(
-            children: [
-              Icon(
-                Icons.done_all,
-                color: chatModel.unreadCount == 0
-                    ? Colors.white
-                    : Color(0xFF25D366),
-                size: 18,
-              ),
-              SizedBox(width: 4),
-              Expanded(child: lastMsgWidget),
-            ],
-          ),
-          onTap: () async {
-            await Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => ChatPage(
-                  messages: chatMessages,
-                  chatId: chatModel.id,
-                  user: user,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        if (chatModel.unreadCount > 0)
+                          Container(
+                            margin: EdgeInsets.only(bottom: 2),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color(0xFF25D366),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              '${chatModel.unreadCount}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
                 ),
+                subtitle: Row(
+                  children: [
+                    SizedBox(width: 4),
+                    Icon(
+                      Icons.done_all,
+                      color: chatModel.unreadCount == 0
+                          ? (isDark ? Colors.white : Color(0xFF25D366))
+                          : Color(0xFF25D366),
+                      size: 18,
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(child: lastMsgWidget),
+                  ],
+                ),
+                onTap: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => ChatPage(
+                        messages: chatMessages,
+                        chatId: chatModel.id,
+                        user: user,
+                      ),
+                    ),
+                  );
+                  setState(() {
+                    // Reset unread count after opening chat
+                    chatModel.unreadCount = 0;
+                    final idx = widget.dummyChats.indexOf(chatModel);
+                    if (idx > 0) {
+                      final moved = widget.dummyChats.removeAt(idx);
+                      widget.dummyChats.insert(0, moved);
+                    }
+                  });
+                },
               ),
-            );
-            setState(() {
-              // Reset unread count after opening chat
-              chatModel.unreadCount = 0;
-              final idx = widget.dummyChats.indexOf(chatModel);
-              if (idx > 0) {
-                final moved = widget.dummyChats.removeAt(idx);
-                widget.dummyChats.insert(0, moved);
-              }
-            });
-          },
+            ),
+          ],
         );
       },
     );

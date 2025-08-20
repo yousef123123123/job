@@ -71,7 +71,6 @@ class _StoriesPageState extends State<StoriesPage> {
         return Dialog(
           backgroundColor: Colors.black,
           child: Image.file(File(story.mediaPath), fit: BoxFit.contain),
-      
         );
       },
     );
@@ -79,21 +78,30 @@ class _StoriesPageState extends State<StoriesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final appBarBg = isDark ? Color(0xFF1F2C34) : Color(0xFF075E54);
+    final iconColor = isDark ? Color(0xFFB6C2CB) : Colors.white;
+    final titleColor = isDark ? Color(0xFFE9EDEF) : Colors.white;
     return Container(
-      color: Color(0xFF111B21),
+      color: isDark ? Color(0xFF111B21) : Color(0xFFF0F0F0),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: Color(0xFF075E54),
-          title: Text(
-            AppLocalizations.of(context)?.storiesTitle ?? 'Stories',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
+          backgroundColor: appBarBg,
           elevation: 0,
+          title: Text(
+            AppLocalizations.of(context)?.storiesTitle ?? 'Updates',
+            style: TextStyle(
+              color: titleColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+            ),
+          ),
           actions: [
             IconButton(
-              icon: Icon(Icons.add_a_photo, color: Colors.white),
+              icon: Icon(Icons.add_a_photo, color: iconColor),
               onPressed: () => _addStory('image'),
+              tooltip: 'Add Story',
             ),
           ],
         ),

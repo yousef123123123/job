@@ -3,7 +3,7 @@
   "home_title": "Chats",
   "stories_title": "Updates",
   "settings_title": "Settings",
-  "chat_input_hint": "Type a message",
+  "chat_input_hint": "Message",
   "send": "Send",
   "typing": "typing...",
   "online": "Online",
@@ -12,5 +12,6 @@
   "english": "English",
   "arabic": "Arabic",
   "voice_message": "Voice message",
-  "image_message": "Photo"
+  "image_message": "Photo",
+  "not_implemented": "This screen is not implemented yet"
 }

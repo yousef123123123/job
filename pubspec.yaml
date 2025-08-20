@@ -46,8 +46,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
-    - assets/images/
+  - assets/
+  - assets/images/
+  - assets/audio/
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
