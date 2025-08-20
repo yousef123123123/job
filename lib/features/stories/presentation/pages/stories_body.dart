@@ -1,5 +1,4 @@
 import '../../../../core/localization/app_localizations.dart';
-// صندوق ستوري بشكل مستطيل بحواف دائرية
 import '../../data/models/story_model.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -175,7 +174,6 @@ class StoriesBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // فلترة الاستوريهات لتشمل الصور فقط
     List<StoryModel> imageStories = stories
         .where((s) => s.mediaType == null || s.mediaType == 'image')
         .toList();
@@ -252,7 +250,7 @@ class StoriesBody extends StatelessWidget {
       onTap: () async {
         if (onAddStory != null) {
           FilePickerResult? result = await FilePicker.platform.pickFiles(
-            type: FileType.image, // السماح بتحميل الصور فقط
+            type: FileType.image, 
             allowMultiple: false,
           );
           if (result != null && result.files.isNotEmpty) {
@@ -314,43 +312,6 @@ class StoriesBody extends StatelessWidget {
     );
   }
 
-  // Widget _whatsappStatusBox() {
-  //   return Container(
-  //     width: 100,
-  //     margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-  //     decoration: BoxDecoration(
-  //       border: Border.all(color: Colors.grey, width: 2),
-  //       borderRadius: BorderRadius.circular(18),
-  //       color: Colors.black,
-  //     ),
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         Stack(
-  //           alignment: Alignment.bottomRight,
-  //           children: [
-  //             CircleAvatar(
-  //               radius: 32,
-  //               backgroundImage: NetworkImage(
-  //                 'https://randomuser.me/api/portraits/men/1.jpg',
-  //               ),
-  //             ),
-  //             CircleAvatar(
-  //               radius: 12,
-  //               backgroundColor: Color(0xFF25D366),
-  //               child: Icon(Icons.add, color: Colors.white, size: 16),
-  //             ),
-  //           ],
-  //         ),
-  //         SizedBox(height: 6),
-  //         Text(
-  //           'My status',
-  //           style: TextStyle(color: Colors.white, fontSize: 13),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }
 
 Widget channelTile(String name, String desc, String time, int count) {

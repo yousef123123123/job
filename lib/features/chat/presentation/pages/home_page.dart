@@ -13,13 +13,13 @@ class HomePage extends StatelessWidget {
   final List<UserModel> users = [
     UserModel(
       id: 'user1',
-      name: 'Yousef',
+      name: 'yousef',
       avatarPath: 'https://randomuser.me/api/portraits/men/1.jpg',
       isOnline: true,
     ),
     UserModel(
       id: 'user2',
-      name: 'Sara',
+      name: 'sra',
       avatarPath: 'https://randomuser.me/api/portraits/women/2.jpg',
       isOnline: false,
     ),
@@ -31,37 +31,37 @@ class HomePage extends StatelessWidget {
     ),
     UserModel(
       id: 'user4',
-      name: 'Mona',
+      name: 'monaa',
       avatarPath: 'https://randomuser.me/api/portraits/women/4.jpg',
       isOnline: true,
     ),
     UserModel(
       id: 'user5',
-      name: 'Omar',
+      name: 'omar',
       avatarPath: 'https://randomuser.me/api/portraits/men/5.jpg',
       isOnline: false,
     ),
     UserModel(
       id: 'user6',
-      name: 'Laila',
+      name: 'lolo',
       avatarPath: 'https://randomuser.me/api/portraits/women/6.jpg',
       isOnline: true,
     ),
     UserModel(
       id: 'user7',
-      name: 'Hassan',
+      name: 'sayed',
       avatarPath: 'https://randomuser.me/api/portraits/men/7.jpg',
       isOnline: false,
     ),
     UserModel(
       id: 'user8',
-      name: 'Nour',
+      name: 'geme',
       avatarPath: 'https://randomuser.me/api/portraits/women/8.jpg',
       isOnline: true,
     ),
     UserModel(
       id: 'user9',
-      name: 'Khaled',
+      name: 'koko',
       avatarPath: 'https://randomuser.me/api/portraits/men/9.jpg',
       isOnline: true,
     ),
@@ -69,6 +69,18 @@ class HomePage extends StatelessWidget {
       id: 'user10',
       name: 'Rania',
       avatarPath: 'https://randomuser.me/api/portraits/women/10.jpg',
+      isOnline: false,
+    ),
+    UserModel(
+      id: 'user11',
+      name: 'temo',
+      avatarPath: 'https://randomuser.me/api/portraits/men/11.jpg',
+      isOnline: true,
+    ),
+    UserModel(
+      id: 'user12',
+      name: 'Fatma',
+      avatarPath: 'https://randomuser.me/api/portraits/women/12.jpg',
       isOnline: false,
     ),
   ];

@@ -27,7 +27,6 @@ class _StoriesPageState extends State<StoriesPage> {
     _localDataSource = StoryLocalDataSource(Hive.box<StoryModel>('storiesBox'));
     final hiveStories = _localDataSource.getAllStories();
     if (hiveStories.isEmpty && widget.stories.isNotEmpty) {
-      // First run: save model stories to Hive
       for (final story in widget.stories) {
         _localDataSource.addStory(story);
       }
@@ -72,10 +71,7 @@ class _StoriesPageState extends State<StoriesPage> {
         return Dialog(
           backgroundColor: Colors.black,
           child: Image.file(File(story.mediaPath), fit: BoxFit.contain),
-          // : _VideoStoryPlayer(
-          //     url: story.mediaPath,
-          //     isLocal: !story.mediaPath.startsWith('http'),
-          //   ),
+      
         );
       },
     );

@@ -17,7 +17,7 @@ class GetStories {
             mediaPath: storyModel.mediaPath,
             timestamp: storyModel.timestamp,
             isViewed: storyModel.isViewed,
-            mediaType: storyModel.mediaType, // أضف هذا السطر
+            mediaType: storyModel.mediaType, 
           ),
         )
         .toList();

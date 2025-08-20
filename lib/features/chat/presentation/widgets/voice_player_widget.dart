@@ -92,10 +92,7 @@ class _VoicePlayerWidgetState extends State<VoicePlayerWidget> {
           (_durationLoaded && _voiceDuration != null
               ? _formatDuration(_voiceDuration!)
               : '--:--'),
-          // '  ·  ' +
-          // (widget.timestamp != null
-          //     ? '${widget.timestamp!.hour.toString().padLeft(2, '0')}:${widget.timestamp!.minute.toString().padLeft(2, '0')}'
-          //     : '--:--'),
+    
           style: TextStyle(
             color: Colors.grey[700],
             fontWeight: FontWeight.bold,
