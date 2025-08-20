@@ -1,3 +1,4 @@
+import 'package:job/core/routes/app_routes.dart';
 import 'package:job/widgets/_nav_bar_updates_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,6 +7,10 @@ import 'package:job/core/theme/app_theme.dart';
 import 'package:job/features/chat/presentation/pages/home_page.dart';
 import 'package:job/features/stories/presentation/pages/stories_page.dart';
 import 'package:job/features/stories/data/models/story_model.dart';
+
+import 'package:job/features/chat/data/models/dummy_chats.dart';
+import 'package:job/features/chat/data/models/dummy_users.dart';
+import 'package:job/features/chat/data/models/user_model.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -79,7 +84,8 @@ class _MyAppState extends State<MyApp> {
         id: 'story1',
         userId: 'user1',
         name: 'Yousef',
-        mediaPath: 'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/387755825_1608735739657875_517741673334542787_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=rrr_fyX3oJQQ7kNvwFvWI5X&_nc_oc=AdkuyVBDB5MeHv68SKvWAd60QZj_GctkSgVsr0P-2F6IrQmdwk5sllokwCXE5pGf4u8&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=Eb-vhFOTMkjKPy2ktOtLxw&oh=00_AfUk3f1WlZYOec4fEi7w6Y_sEXfz8sa8vAVmPfiu59EzOg&oe=68AB1446',
+        mediaPath:
+            'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/387755825_1608735739657875_517741673334542787_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=rrr_fyX3oJQQ7kNvwFvWI5X&_nc_oc=AdkuyVBDB5MeHv68SKvWAd60QZj_GctkSgVsr0P-2F6IrQmdwk5sllokwCXE5pGf4u8&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=Eb-vhFOTMkjKPy2ktOtLxw&oh=00_AfUk3f1WlZYOec4fEi7w6Y_sEXfz8sa8vAVmPfiu59EzOg&oe=68AB1446',
         timestamp: DateTime.now().subtract(Duration(hours: 1)),
         isViewed: false,
         mediaType: 'image',
@@ -88,7 +94,8 @@ class _MyAppState extends State<MyApp> {
         id: 'story2',
         userId: 'user2',
         name: 'Abdallah Essa',
-        mediaPath: 'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/502659506_2228163400935859_1315357540697861294_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=g5mPk-KtL_wQ7kNvwEK8B7j&_nc_oc=Admj2xGPTDe2tyIrDTxjBSUzVZLj8O0Y0ZJwoODKkFuVuaKRJWVrBjmfYHmpe-bcwho&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=PotPROE46erSf8bjDtd8GQ&oh=00_AfU-ptD-hqIfH5hTmv21qxj4PZvc8FzRJvFfPj_zyq45Iw&oe=68AB139C',
+        mediaPath:
+            'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/502659506_2228163400935859_1315357540697861294_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=g5mPk-KtL_wQ7kNvwEK8B7j&_nc_oc=Admj2xGPTDe2tyIrDTxjBSUzVZLj8O0Y0ZJwoODKkFuVuaKRJWVrBjmfYHmpe-bcwho&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=PotPROE46erSf8bjDtd8GQ&oh=00_AfU-ptD-hqIfH5hTmv21qxj4PZvc8FzRJvFfPj_zyq45Iw&oe=68AB139C',
         timestamp: DateTime.now().subtract(Duration(hours: 2)),
         isViewed: true,
         mediaType: 'image',
@@ -97,14 +104,18 @@ class _MyAppState extends State<MyApp> {
         id: 'story3',
         userId: 'user3',
         name: 'Saber ',
-        mediaPath: 'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/506804367_2079200242566177_1949159825969359624_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=IB1o2R_ELwUQ7kNvwGtPbO-&_nc_oc=Adl4FsOVg4vufeBuG-XDxPmaxYbd4e7OWcfojsbqL-3kZRUgT-mKZ-A4lAXrmyQbHDg&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=k8-cd07nEWS9Ac7lp2Rbhw&oh=00_AfXFW9bwNWS-c-l-DMboFvyPWGfFesDybz-BDzSEnRsVKA&oe=68AB174A',
+        mediaPath:
+            'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/506804367_2079200242566177_1949159825969359624_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=IB1o2R_ELwUQ7kNvwGtPbO-&_nc_oc=Adl4FsOVg4vufeBuG-XDxPmaxYbd4e7OWcfojsbqL-3kZRUgT-mKZ-A4lAXrmyQbHDg&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=k8-cd07nEWS9Ac7lp2Rbhw&oh=00_AfXFW9bwNWS-c-l-DMboFvyPWGfFesDybz-BDzSEnRsVKA&oe=68AB174A',
         timestamp: DateTime.now().subtract(Duration(hours: 3)),
         isViewed: false,
         mediaType: 'image',
       ),
     ];
+    // Use imported dummy data
     final pages = [
       HomePage(
+        dummyChats: dummyChats,
+        users: dummyUsers,
         onLocaleChanged: _onLocaleChanged,
         onThemeChanged: _onThemeChanged,
         currentLocale: _locale,

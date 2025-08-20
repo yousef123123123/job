@@ -6,92 +6,17 @@ import 'package:job/core/localization/app_localizations.dart';
 import 'package:job/features/home/presentation/pages/settings_page.dart';
 
 class HomePage extends StatelessWidget {
+  final List<dynamic> dummyChats;
+  final List<UserModel> users;
   final ValueChanged<Locale?>? onLocaleChanged;
   final ValueChanged<ThemeMode?>? onThemeChanged;
   final Locale? currentLocale;
   final ThemeMode? currentThemeMode;
-  final List<UserModel> users = [
-    UserModel(
-      id: 'user1',
-      name: 'yousef',
-      avatarPath: 'https://randomuser.me/api/portraits/men/1.jpg',
-      isOnline: true,
-    ),
-    UserModel(
-      id: 'user2',
-      name: 'ElRys',
-      avatarPath:
-          'https://en.amwalalghad.com/wp-content/uploads/2025/02/sisi_feb2.jpg',
-      isOnline: false,
-    ),
-    UserModel(
-      id: 'user3',
-      name: 'Ali',
-      avatarPath:
-          'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/506804367_2079200242566177_1949159825969359624_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=IB1o2R_ELwUQ7kNvwGtPbO-&_nc_oc=Adl4FsOVg4vufeBuG-XDxPmaxYbd4e7OWcfojsbqL-3kZRUgT-mKZ-A4lAXrmyQbHDg&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=k8-cd07nEWS9Ac7lp2Rbhw&oh=00_AfXFW9bwNWS-c-l-DMboFvyPWGfFesDybz-BDzSEnRsVKA&oe=68AB174A',
-      isOnline: true,
-    ),
-    UserModel(
-      id: 'user4',
-      name: 'monaa',
-      avatarPath: 'https://randomuser.me/api/portraits/women/4.jpg',
-      isOnline: true,
-    ),
-    UserModel(
-      id: 'user5',
-      name: 'omar',
-      avatarPath:
-          'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/518324283_4044696459192712_2011175525981043257_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=7vsbN0edd1YQ7kNvwHtPLu8&_nc_oc=Adm0G0KpeioZ16yT2Ax75YBSu-vCO99mV4Qd6g6qKQ7cdNY7RzjlNaYiCN4RW9jz_tE&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=k4kzdl5tCu5pJiEit1MWng&oh=00_AfUbobhjYZ6hO4rzK2IVshm1W1OXKrg4Tfecwj56vUvN_A&oe=68AB2436',
-      isOnline: false,
-    ),
-    UserModel(
-      id: 'user6',
-      name: 'lolo',
-      avatarPath: 'https://randomuser.me/api/portraits/women/6.jpg',
-      isOnline: true,
-    ),
-    UserModel(
-      id: 'user7',
-      name: 'sayed',
-      avatarPath:
-          'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/387755825_1608735739657875_517741673334542787_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=rrr_fyX3oJQQ7kNvwFvWI5X&_nc_oc=AdkuyVBDB5MeHv68SKvWAd60QZj_GctkSgVsr0P-2F6IrQmdwk5sllokwCXE5pGf4u8&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=Eb-vhFOTMkjKPy2ktOtLxw&oh=00_AfUk3f1WlZYOec4fEi7w6Y_sEXfz8sa8vAVmPfiu59EzOg&oe=68AB1446',
-      isOnline: false,
-    ),
-    UserModel(
-      id: 'user8',
-      name: 'geme',
-      avatarPath: 'https://randomuser.me/api/portraits/women/8.jpg',
-      isOnline: true,
-    ),
-    UserModel(
-      id: 'user9',
-      name: 'koko',
-      avatarPath: 'https://randomuser.me/api/portraits/men/9.jpg',
-      isOnline: true,
-    ),
-    UserModel(
-      id: 'user10',
-      name: 'Rania',
-      avatarPath: 'https://randomuser.me/api/portraits/women/10.jpg',
-      isOnline: false,
-    ),
-    UserModel(
-      id: 'user11',
-      name: 'temo',
-      avatarPath: 'https://randomuser.me/api/portraits/men/11.jpg',
-      isOnline: true,
-    ),
-    UserModel(
-      id: 'user12',
-      name: 'Abdo',
-      avatarPath:
-          'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/514355676_4041458572849834_4014911700767193345_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=tyiKmFl5iMQQ7kNvwFI3rPe&_nc_oc=AdnIh0q-XF8BLmVnf_GUbaJqOh1hoBp1emd3XdmqP_9f_y0fW90AfjI8uGKY7MT2r6s&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=ov0Ji2uMzTfFDJIQ9dwkMg&oh=00_AfXyELIP0s2UCuksvp6gMKdoZiUsxjM9L3GkAH9Lu_hnQA&oe=68AB0041',
-      isOnline: false,
-    ),
-  ];
 
   HomePage({
     Key? key,
+    required this.dummyChats,
+    required this.users,
     this.onLocaleChanged,
     this.onThemeChanged,
     this.currentLocale,
@@ -101,15 +26,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
-    final dummyChats = List.generate(
-      users.length,
-      (i) => ChatModel(
-        id: 'chat${i + 1}',
-        userId: users[i].id,
-        unreadCount: (i % 4),
-        messages: [],
-      ),
-    );
+    // dummyChats و users يتم تمريرهم من الراوتر
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final appBarBg = isDark ? Color(0xFF1F2C34) : Color(0xFF075E54);
     final iconColor = isDark ? Color(0xFFB6C2CB) : Colors.white;

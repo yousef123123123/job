@@ -42,11 +42,7 @@ class AppLocalizations {
   String get chatInputHint =>
       locale.languageCode == 'ar' ? 'أدخل رسالتك' : 'Message';
 
-  // String get chatInputHint => Intl.message(
-  //   'Message',
-  //   name: 'chat_input_hint',
-  //   locale: locale.toString(),
-  // );
+ 
   String get lastSeen =>
       Intl.message('آخر ظهور', name: 'last_seen', locale: locale.toString());
   String get send =>

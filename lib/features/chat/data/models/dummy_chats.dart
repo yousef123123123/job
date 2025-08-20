@@ -60,4 +60,152 @@ final dummyChats = [
       ),
     ],
   ),
+  ChatModel(
+    id: 'chat3',
+    userId: 'user3',
+    unreadCount: 1,
+    messages: [
+      MessageModel(
+        id: 'msg5',
+        chatId: 'chat3',
+        senderId: 'user3',
+        text: 'ازيك يا برووووووووووووووووووو',
+        mediaPath: null,
+        voicePath: null,
+        timestamp: DateTime.now().subtract(Duration(minutes: 10)),
+        isSeen: false,
+        isMine: false,
+      ),
+    ],
+  ),
+  ChatModel(
+    id: 'chat4',
+    userId: 'user4',
+    unreadCount: 0,
+    messages: [
+      MessageModel(
+        id: 'msg6',
+        chatId: 'chat4',
+        senderId: 'user4',
+        text: 'السلام عليكم ورحمه الله ',
+        mediaPath: null,
+        voicePath: null,
+        timestamp: DateTime.now().subtract(Duration(minutes: 5)),
+        isSeen: true,
+        isMine: false,
+      ),
+    ],
+  ),
+  ChatModel(
+    id: 'chat5',
+    userId: 'user5',
+    unreadCount: 0,
+    messages: [
+      MessageModel(
+        id: 'msg7',
+        chatId: 'chat5',
+        senderId: 'user5',
+        text: 'Hello My Brothers',
+        mediaPath: null,
+        voicePath: null,
+        timestamp: DateTime.now().subtract(Duration(minutes: 1)),
+        isSeen: true,
+        isMine: false,
+      ),
+    ],
+  ),
+  ChatModel(
+    id: 'chat6',
+    userId: 'user6',
+    unreadCount: 0,
+    messages: [
+      MessageModel(
+        id: 'msg8',
+        chatId: 'chat6',
+        senderId: 'user6',
+        text: 'هالو ماي برازرز',
+        mediaPath: null,
+        voicePath: null,
+        timestamp: DateTime.now().subtract(Duration(minutes: 1)),
+        isSeen: true,
+        isMine: false,
+      ),
+    ],
+  ),
+
+  ChatModel(
+    id: 'chat7',
+    userId: 'user7',
+    unreadCount: 0,
+    messages: [
+      MessageModel(
+        id: 'msg9',
+        chatId: 'chat7',
+        senderId: 'user7',
+        text: 'انت مييييييين؟',
+        mediaPath: null,
+        voicePath: null,
+        timestamp: DateTime.now().subtract(Duration(minutes: 1)),
+        isSeen: true,
+        isMine: false,
+      ),
+    ],
+  ),
+
+  ChatModel(
+    id: 'chat8',
+    userId: 'user8',
+    unreadCount: 0,
+    messages: [
+      MessageModel(
+        id: 'msg10',
+        chatId: 'chat8',
+        senderId: 'user8',
+        text: 'سلامووو عليكو',
+        mediaPath: null,
+        voicePath: null,
+        timestamp: DateTime.now().subtract(Duration(minutes: 1)),
+        isSeen: true,
+        isMine: false,
+      ),
+    ],
+  ),
+
+  ChatModel(
+    id: 'chat9',
+    userId: 'user9',
+    unreadCount: 0,
+    messages: [
+      MessageModel(
+        id: 'msg11',
+        chatId: 'chat9',
+        senderId: 'user9',
+        text: 'طب فله',
+        mediaPath: null,
+        voicePath: null,
+        timestamp: DateTime.now().subtract(Duration(minutes: 1)),
+        isSeen: true,
+        isMine: false,
+      ),
+    ],
+  ),
+
+  ChatModel(
+    id: 'chat10',
+    userId: 'user10',
+    unreadCount: 0,
+    messages: [
+      MessageModel(
+        id: 'msg12',
+        chatId: 'chat10',
+        senderId: 'user10',
+        text: 'اهلاااااااااااا',
+        mediaPath: null,
+        voicePath: null,
+        timestamp: DateTime.now().subtract(Duration(minutes: 1)),
+        isSeen: true,
+        isMine: false,
+      ),
+    ],
+  ),
 ];
