@@ -6,9 +6,12 @@ The primary objective was to create a pixel-perfect, feature-rich application th
 Core Features & Technical Highlights
 Comprehensive Chat Functionality: Supports a robust messaging system, enabling users to send and receive text messages, share images and various file types, and engage in authentic voice message conversations.
 
-Dynamic Storytelling: Includes a full-featured stories module, allowing users to view ephemeral content in the form of both image and video statuses.
+Dynamic Storytelling: Includes a full-featured stories module, allowing users to view ephemeral content in the form Images,
+
+Offline Data Persistence: Your use of Hive as an offline database is an excellent choice. This is crucial for messaging applications like this, as it ensures seamless storage for both chat data and stories (statuses)
 
 Intuitive UI & Adaptive Theming: Features a user interface that faithfully reproduces WhatsApp's navigation patterns and AppBar design. The application seamlessly supports both light and dark modes to provide a comfortable viewing experience in any environment.
+
 
 Multi-Language Support: Demonstrates strong localization capabilities by offering seamless support for both Arabic and English languages, ensuring a wider and more accessible user base.
 

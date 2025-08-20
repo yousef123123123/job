@@ -261,7 +261,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                   BottomNavigationBarItem(
                     icon: Image.asset(
-                      'assets/updates.png',
+                      'assets/images/updates.png',
                       // color:
                       color: Color(0xFF25D366),
                       // color: Colors.white70,
