@@ -3,10 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/user_model.dart';
 import 'package:hive/hive.dart';
 import '../../data/models/message_model.dart';
-import 'package:flutter/material.dart';
-import '../../data/models/user_model.dart';
-import 'package:hive/hive.dart';
-import '../../data/models/message_model.dart';
+
 import '../../data/models/default_messages_model.dart';
 import 'chat_page.dart';
 import 'dart:io';

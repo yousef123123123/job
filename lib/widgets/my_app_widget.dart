@@ -1,4 +1,3 @@
-import 'package:job/core/routes/app_routes.dart';
 import 'package:job/widgets/_nav_bar_updates_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,7 +9,6 @@ import 'package:job/features/stories/data/models/story_model.dart';
 
 import 'package:job/features/chat/data/models/dummy_chats.dart';
 import 'package:job/features/chat/data/models/dummy_users.dart';
-import 'package:job/features/chat/data/models/user_model.dart';
 
 class MyApp extends StatefulWidget {
   @override

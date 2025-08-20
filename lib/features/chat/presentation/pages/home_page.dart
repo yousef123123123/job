@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/models/user_model.dart';
 import 'home_body.dart';
-import 'package:job/features/chat/data/models/chat_model.dart';
 import 'package:job/core/localization/app_localizations.dart';
 import 'package:job/features/home/presentation/pages/settings_page.dart';
 

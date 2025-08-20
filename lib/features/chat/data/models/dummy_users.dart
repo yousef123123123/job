@@ -17,7 +17,7 @@ final dummyUsers = [
     id: 'user3',
     name: 'Saber',
     avatarPath:
-        'https://en.amwalalghad.com/wp-content/uploads/2025/02/sisi_feb2.jpg',
+        'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/506804367_2079200242566177_1949159825969359624_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=IB1o2R_ELwUQ7kNvwGtPbO-&_nc_oc=Adl4FsOVg4vufeBuG-XDxPmaxYbd4e7OWcfojsbqL-3kZRUgT-mKZ-A4lAXrmyQbHDg&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=k8-cd07nEWS9Ac7lp2Rbhw&oh=00_AfXFW9bwNWS-c-l-DMboFvyPWGfFesDybz-BDzSEnRsVKA&oe=68AB174A',
     isOnline: false,
   ),
   UserModel(
