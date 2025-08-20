@@ -1,3 +1,4 @@
+import '../../../../core/localization/app_localizations.dart';
 // صندوق ستوري بشكل مستطيل بحواف دائرية
 import '../../data/models/story_model.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +30,31 @@ Widget _whatsappStoryBox(
         width: boxWidth,
         height: 170,
         fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Container(
+            width: boxWidth,
+            height: 170,
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(color: Colors.white),
+          );
+        },
         errorBuilder: (context, error, stackTrace) => Container(
           width: boxWidth,
           height: 170,
           color: Colors.grey,
-          child: Icon(Icons.broken_image, color: Colors.white, size: 32),
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.broken_image, color: Colors.white, size: 32),
+              SizedBox(height: 8),
+              Text(
+                'تعذر تحميل الصورة',
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -55,7 +76,54 @@ Widget _whatsappStoryBox(
     );
   }
   return GestureDetector(
-    onTap: () => onViewStory(story),
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return Dialog(
+            backgroundColor: Colors.black,
+            insetPadding: EdgeInsets.all(12),
+            child: story.mediaPath.startsWith('http')
+                ? Image.network(
+                    story.mediaPath,
+                    fit: BoxFit.contain,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(color: Colors.white),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.broken_image, color: Colors.white, size: 64),
+                        SizedBox(height: 12),
+                        Text(
+                          'تعذر تحميل الصورة',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  )
+                : Image.file(
+                    File(story.mediaPath),
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.broken_image, color: Colors.white, size: 64),
+                        SizedBox(height: 12),
+                        Text(
+                          'تعذر تحميل الصورة',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+          );
+        },
+      );
+    },
     child: Container(
       width: boxWidth,
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -66,22 +134,21 @@ Widget _whatsappStoryBox(
             children: [imageWidget, SizedBox(height: 6)],
           ),
           Positioned(
-            bottom: 22,
+            bottom: 18,
             left: 8,
             right: 8,
-            child: Padding(
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(136, 117, 113, 113),
+                borderRadius: BorderRadius.circular(12),
+              ),
               padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(137, 90, 86, 86),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              child: Center(
                 child: Text(
                   story.name,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: FontWeight.bold,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -108,6 +175,11 @@ class StoriesBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // فلترة الاستوريهات لتشمل الصور فقط
+    List<StoryModel> imageStories = stories
+        .where((s) => s.mediaType == null || s.mediaType == 'image')
+        .toList();
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +191,7 @@ class StoriesBody extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: [
                 _addStatusBox(context),
-                ...stories
+                ...imageStories
                     .map(
                       (story) => _whatsappStoryBox(story, onViewStory, context),
                     )
@@ -180,7 +252,7 @@ class StoriesBody extends StatelessWidget {
       onTap: () async {
         if (onAddStory != null) {
           FilePickerResult? result = await FilePicker.platform.pickFiles(
-            type: FileType.any, // allow all formats
+            type: FileType.image, // السماح بتحميل الصور فقط
             allowMultiple: false,
           );
           if (result != null && result.files.isNotEmpty) {
@@ -233,7 +305,7 @@ class StoriesBody extends StatelessWidget {
             ),
             SizedBox(height: 6),
             Text(
-              'My Status',
+              AppLocalizations.of(context)?.myStatus ?? 'My Status',
               style: TextStyle(color: Colors.white, fontSize: 13),
             ),
           ],

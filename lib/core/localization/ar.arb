@@ -1,5 +1,5 @@
 {
-  "app_title": "واتساب المحلي",
+  "app_title": "واتساب",
   "home_title": "الدردشات",
   "stories_title": "القصص",
   "settings_title": "الإعدادات",
@@ -10,5 +10,7 @@
   "offline": "غير متصل",
   "language": "اللغة",
   "english": "الإنجليزية",
-  "arabic": "العربية"
+  "arabic": "العربية",
+  "voice_message": "رسالة صوتية",
+  "image_message": "صورة"
 }

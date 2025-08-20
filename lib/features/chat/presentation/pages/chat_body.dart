@@ -1,9 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../data/models/message_model.dart';
 import '../../data/models/user_model.dart';
-import '../widgets/voice_recorder_widget.dart';
-import '../widgets/voice_player_widget.dart';
 
 class ChatBody extends StatelessWidget {
   final List<MessageModel> messages;
@@ -57,20 +54,7 @@ class ChatBody extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      if (msg.mediaPath != null)
-                        Container(
-                          margin: EdgeInsets.only(bottom: 6),
-                          child: Image.file(
-                            File(msg.mediaPath!),
-                            width: 180,
-                            height: 180,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      if (msg.voicePath != null)
-                        VoicePlayerWidget(voicePath: msg.voicePath!),
-                      if (msg.text.isNotEmpty)
-                        Text(msg.text, style: TextStyle(fontSize: 16)),
+                      Text(msg.text, style: TextStyle(fontSize: 16)),
                       SizedBox(height: 6),
                       Row(
                         mainAxisSize: MainAxisSize.min,
@@ -102,79 +86,6 @@ class ChatBody extends StatelessWidget {
         Container(
           color: isDark ? Color(0xFF202C33) : Color(0xFF222E35),
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          child: Row(
-            children: [
-              Icon(Icons.emoji_emotions, color: Colors.grey[400]),
-              SizedBox(width: 8),
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Type a message',
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    filled: true,
-                    fillColor: isDark ? Color(0xFF2A3942) : Color(0xFF2A3942),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 10,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.white),
-                  onSubmitted: (val) {
-                    if (val.trim().isNotEmpty && onSend != null) {
-                      onSend!(
-                        MessageModel(
-                          id: 'msg${messages.length}',
-                          chatId: chatId,
-                          senderId: 'me',
-                          text: val,
-                          mediaPath: null,
-                          voicePath: null,
-                          timestamp: DateTime.now(),
-                          isSeen: true,
-                          isMine: true,
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ),
-              SizedBox(width: 8),
-              VoiceRecorderWidget(
-                onVoiceRecorded: (path) {
-                  if (onSend != null) {
-                    onSend!(
-                      MessageModel(
-                        id: 'msg${messages.length}',
-                        chatId: chatId,
-                        senderId: 'me',
-                        text: '',
-                        mediaPath: null,
-                        voicePath: path,
-                        timestamp: DateTime.now(),
-                        isSeen: true,
-                        isMine: true,
-                      ),
-                    );
-                  }
-                },
-              ),
-              SizedBox(width: 8),
-              Container(
-                decoration: BoxDecoration(
-                  color: Color(0xFF075E54),
-                  shape: BoxShape.circle,
-                ),
-                child: IconButton(
-                  icon: Icon(Icons.send, color: Colors.white),
-                  onPressed: () {},
-                ),
-              ),
-            ],
-          ),
         ),
       ],
     );

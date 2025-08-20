@@ -17,7 +17,7 @@ class StoryModel extends HiveObject {
   @HiveField(5)
   final String name;
   @HiveField(6)
-  final String mediaType; // 'image' or 'video'
+  final String mediaType; 
 
   StoryModel({
     required this.id,

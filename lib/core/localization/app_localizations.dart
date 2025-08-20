@@ -3,6 +3,10 @@ import 'package:intl/intl.dart';
 import 'dart:async';
 
 class AppLocalizations {
+  String get voiceMessage =>
+      locale.languageCode == 'ar' ? 'رسالة صوتية' : 'Voice message';
+  String get imageMessage => locale.languageCode == 'ar' ? 'صورة' : 'Photo';
+  String get myStatus => locale.languageCode == 'ar' ? 'حالتي' : 'My Status';
   String get communicationsTitle =>
       locale.languageCode == 'ar' ? 'جهات الاتصال' : 'Communications';
   String get callsTitle => locale.languageCode == 'ar' ? 'المكالمات' : 'Calls';
@@ -27,11 +31,10 @@ class AppLocalizations {
 
   static const supportedLocales = [Locale('en'), Locale('ar')];
 
-  String get appTitle =>
-      locale.languageCode == 'ar' ? 'واتساب المحلي' : 'WhatsApp Local';
+  String get appTitle => locale.languageCode == 'ar' ? 'واتساب' : 'WhatsApp';
   String get homeTitle => locale.languageCode == 'ar' ? 'الدردشات' : 'Chats';
   String get storiesTitle =>
-      locale.languageCode == 'ar' ? 'الحالات' : 'Stories';
+      locale.languageCode == 'ar' ? 'الحالات' : 'Updates';
   String get settingsTitle =>
       locale.languageCode == 'ar' ? 'الإعدادات' : 'Settings';
   String get chatInputHint => Intl.message(

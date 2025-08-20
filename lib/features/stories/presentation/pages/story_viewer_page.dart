@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/models/story_model.dart';
 import 'dart:io';
-import 'package:video_player/video_player.dart';
 
 class StoryViewerPage extends StatefulWidget {
   final StoryModel story;
@@ -12,35 +11,9 @@ class StoryViewerPage extends StatefulWidget {
 }
 
 class _StoryViewerPageState extends State<StoryViewerPage> {
-  VideoPlayerController? _videoController;
-  bool _isVideo = false;
-
   @override
   void initState() {
     super.initState();
-    _isVideo = widget.story.mediaType == 'video';
-    if (_isVideo) {
-      if (widget.story.mediaPath.startsWith('http')) {
-        _videoController = VideoPlayerController.network(widget.story.mediaPath)
-          ..initialize().then((_) {
-            setState(() {});
-            _videoController?.play();
-          });
-      } else {
-        _videoController =
-            VideoPlayerController.file(File(widget.story.mediaPath))
-              ..initialize().then((_) {
-                setState(() {});
-                _videoController?.play();
-              });
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    _videoController?.dispose();
-    super.dispose();
   }
 
   @override
@@ -54,32 +27,43 @@ class _StoryViewerPageState extends State<StoryViewerPage> {
         title: Text(widget.story.userId, style: TextStyle(color: Colors.white)),
       ),
       body: Center(
-        child: _isVideo
-            ? (_videoController != null && _videoController!.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _videoController!.value.aspectRatio,
-                      child: VideoPlayer(_videoController!),
-                    )
-                  : CircularProgressIndicator(color: Colors.white))
-            : (widget.story.mediaPath.startsWith('http')
-                  ? Image.network(
-                      widget.story.mediaPath,
-                      fit: BoxFit.contain,
-                      errorBuilder: (c, e, s) => Icon(
-                        Icons.broken_image,
-                        color: Colors.white,
-                        size: 64,
-                      ),
-                    )
-                  : Image.file(
-                      File(widget.story.mediaPath),
-                      fit: BoxFit.contain,
-                      errorBuilder: (c, e, s) => Icon(
-                        Icons.broken_image,
-                        color: Colors.white,
-                        size: 64,
-                      ),
-                    )),
+        child: widget.story.mediaPath.startsWith('http')
+            ? Image.network(
+                widget.story.mediaPath,
+                fit: BoxFit.contain,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(color: Colors.white),
+                  );
+                },
+                errorBuilder: (c, e, s) => Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.broken_image, color: Colors.white, size: 64),
+                    SizedBox(height: 12),
+                    Text(
+                      'تعذر تحميل الصورة',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              )
+            : Image.file(
+                File(widget.story.mediaPath),
+                fit: BoxFit.contain,
+                errorBuilder: (c, e, s) => Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.broken_image, color: Colors.white, size: 64),
+                    SizedBox(height: 12),
+                    Text(
+                      'تعذر تحميل الصورة',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
       ),
     );
   }

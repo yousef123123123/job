@@ -14,6 +14,8 @@ Multi-Language Support: Demonstrates strong localization capabilities by offerin
 
 Efficient Local Storage: Utilizes the Hive database for fast and reliable local data persistence. This ensures that chat history and user data are securely stored on the device, providing a smooth and responsive experience even when offline.
 
+
+
 Scalable Architecture: The codebase is built upon a Clean Architecture foundation. This choice ensures the project is not only functional but also highly organized, modular, testable, and maintainable, making it easily scalable for future feature additions.
 
 This project showcases an ability to transform design concepts into a tangible, professional-grade mobile application that meets strict quality and performance standards

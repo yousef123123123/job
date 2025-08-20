@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'settings_body.dart';
+import 'package:job/core/localization/app_localizations.dart';
 
 class SettingsPage extends StatelessWidget {
   final ValueChanged<Locale?> onLocaleChanged;
@@ -18,6 +19,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: isDark ? Color(0xFF0B141A) : Color(0xFF111B21),
       appBar: PreferredSize(
@@ -29,7 +31,7 @@ class SettingsPage extends StatelessWidget {
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
           ),
           title: Text(
-            'الإعدادات',
+            loc.settingsTitle,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

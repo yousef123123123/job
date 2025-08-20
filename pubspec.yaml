@@ -21,20 +21,18 @@ dependencies:
   intl: ^0.20.2
   flutter_bloc: ^8.1.0
   equatable: ^2.0.3
-  # flutter_sound: ^9.2.13
-  # file_picker: ^5.2.2
+
   image_picker: ^0.8.7+4
-  video_player: ^2.7.2
+  
   record: ^6.0.0
   just_audio: ^0.9.36
 
   
   cupertino_icons: ^1.0.8
   file_picker: ^10.3.1
-  video_thumbnail: ^0.5.6
-  chewie: ^1.12.1
+ 
   open_file: ^3.5.10
-  video_compress: 3.1.4
+ 
 
 dev_dependencies:
   flutter_test:

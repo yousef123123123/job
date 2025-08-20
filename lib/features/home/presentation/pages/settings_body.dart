@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job/core/localization/app_localizations.dart';
 
 class SettingsBody extends StatelessWidget {
   final ValueChanged<Locale?> onLocaleChanged;
@@ -16,6 +17,7 @@ class SettingsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final loc = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.all(16),
       child: Column(
@@ -30,7 +32,7 @@ class SettingsBody extends StatelessWidget {
             child: ListTile(
               leading: Icon(Icons.language, color: Color(0xFF25D366)),
               title: Text(
-                'اللغة',
+                loc.language,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               trailing: DropdownButtonHideUnderline(
@@ -38,11 +40,11 @@ class SettingsBody extends StatelessWidget {
                   value: currentLocale,
                   items: [
                     DropdownMenuItem(
-                      child: Text('العربية'),
+                      child: Text(loc.arabic),
                       value: Locale('ar'),
                     ),
                     DropdownMenuItem(
-                      child: Text('English'),
+                      child: Text(loc.english),
                       value: Locale('en'),
                     ),
                   ],
@@ -61,7 +63,7 @@ class SettingsBody extends StatelessWidget {
             child: ListTile(
               leading: Icon(Icons.brightness_6, color: Color(0xFF25D366)),
               title: Text(
-                'الثيم',
+                loc.locale.languageCode == 'ar' ? 'الثيم' : 'Theme',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               trailing: DropdownButtonHideUnderline(
@@ -69,15 +71,21 @@ class SettingsBody extends StatelessWidget {
                   value: currentThemeMode,
                   items: [
                     DropdownMenuItem(
-                      child: Text('النظام'),
+                      child: Text(
+                        loc.locale.languageCode == 'ar' ? 'النظام' : 'System',
+                      ),
                       value: ThemeMode.system,
                     ),
                     DropdownMenuItem(
-                      child: Text('فاتح'),
+                      child: Text(
+                        loc.locale.languageCode == 'ar' ? 'فاتح' : 'Light',
+                      ),
                       value: ThemeMode.light,
                     ),
                     DropdownMenuItem(
-                      child: Text('غامق'),
+                      child: Text(
+                        loc.locale.languageCode == 'ar' ? 'غامق' : 'Dark',
+                      ),
                       value: ThemeMode.dark,
                     ),
                   ],
@@ -87,35 +95,7 @@ class SettingsBody extends StatelessWidget {
             ),
           ),
           SizedBox(height: 24),
-          // محتوى إضافي (حشو) ليبدو مثل واتساب
-          // Text(
-          //   'معلومات الحساب',
-          //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          // ),
-          // SizedBox(height: 8),
-          // Text('رقم الهاتف: 01012345678'),
-          // SizedBox(height: 8),
-          // Text('البريد الإلكتروني: user@email.com'),
-          // SizedBox(height: 24),
-          // Text(
-          //   'الإشعارات',
-          //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          // ),
-          // SizedBox(height: 8),
-          // Row(
-          //   children: [
-          //     Icon(Icons.notifications, color: Color(0xFF25D366)),
-          //     SizedBox(width: 8),
-          //     Text('تشغيل الإشعارات'),
-          //   ],
-          // ),
-          // Spacer(),
-          // Center(
-          //   child: Text(
-          //     '© جميع الحقوق محفوظة 2025',
-          //     style: TextStyle(color: Colors.grey, fontSize: 13),
-          //   ),
-          // ),
+          // ...existing code...
         ],
       ),
     );

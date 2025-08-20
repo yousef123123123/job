@@ -1,7 +1,7 @@
 {
-  "app_title": "WhatsApp Local",
+  "app_title": "WhatsApp",
   "home_title": "Chats",
-  "stories_title": "Stories",
+  "stories_title": "Updates",
   "settings_title": "Settings",
   "chat_input_hint": "Type a message",
   "send": "Send",
@@ -10,5 +10,7 @@
   "offline": "Offline",
   "language": "Language",
   "english": "English",
-  "arabic": "Arabic"
+  "arabic": "Arabic",
+  "voice_message": "Voice message",
+  "image_message": "Photo"
 }

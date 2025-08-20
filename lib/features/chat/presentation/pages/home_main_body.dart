@@ -49,7 +49,7 @@ class HomeMainBody extends StatelessWidget {
                         appBar: AppBar(title: Text(user.name)),
                         body: Center(
                           child: Text('صفحة الشات'),
-                        ), // صفحة شات بسيطة
+                        ),
                       ),
                     ),
                   );

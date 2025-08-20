@@ -1,10 +1,9 @@
+import '../../../../core/localization/app_localizations.dart';
 import 'package:hive/hive.dart';
 import '../../data/sources/story_local_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:video_player/video_player.dart';
-import 'package:chewie/chewie.dart';
-import 'package:open_file/open_file.dart';
+
 import 'dart:io';
 
 import '../../data/models/story_model.dart';
@@ -48,7 +47,7 @@ class _StoriesPageState extends State<StoriesPage> {
     }
     if (picked != null) {
       final story = StoryModel(
-        name: 'Yousef',
+        name: 'Yousef Jo',
         id: 'story${DateTime.now().millisecondsSinceEpoch}',
         userId: 'Yousef',
         mediaPath: picked.path,
@@ -72,12 +71,11 @@ class _StoriesPageState extends State<StoriesPage> {
       builder: (ctx) {
         return Dialog(
           backgroundColor: Colors.black,
-          child: story.mediaType == 'image'
-              ? Image.file(File(story.mediaPath), fit: BoxFit.contain)
-              : _VideoStoryPlayer(
-                  url: story.mediaPath,
-                  isLocal: !story.mediaPath.startsWith('http'),
-                ),
+          child: Image.file(File(story.mediaPath), fit: BoxFit.contain),
+          // : _VideoStoryPlayer(
+          //     url: story.mediaPath,
+          //     isLocal: !story.mediaPath.startsWith('http'),
+          //   ),
         );
       },
     );
@@ -92,7 +90,7 @@ class _StoriesPageState extends State<StoriesPage> {
         appBar: AppBar(
           backgroundColor: Color(0xFF075E54),
           title: Text(
-            'Stories',
+            AppLocalizations.of(context)?.storiesTitle ?? 'Stories',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           elevation: 0,
@@ -100,10 +98,6 @@ class _StoriesPageState extends State<StoriesPage> {
             IconButton(
               icon: Icon(Icons.add_a_photo, color: Colors.white),
               onPressed: () => _addStory('image'),
-            ),
-            IconButton(
-              icon: Icon(Icons.videocam, color: Colors.white),
-              onPressed: () => _addStory('video'),
             ),
           ],
         ),
@@ -133,94 +127,5 @@ class _StoriesPageState extends State<StoriesPage> {
         ),
       ),
     );
-  }
-}
-
-class _VideoStoryPlayer extends StatefulWidget {
-  final String url;
-  final bool isLocal;
-  const _VideoStoryPlayer({required this.url, this.isLocal = false});
-  @override
-  State<_VideoStoryPlayer> createState() => _VideoStoryPlayerState();
-}
-
-class _VideoStoryPlayerState extends State<_VideoStoryPlayer> {
-  VideoPlayerController? _controller;
-  ChewieController? _chewieController;
-  String? _error;
-
-  @override
-  void initState() {
-    super.initState();
-    try {
-      if (widget.isLocal) {
-        _controller = VideoPlayerController.file(File(widget.url));
-      } else {
-        _controller = VideoPlayerController.network(widget.url);
-      }
-      _controller!
-          .initialize()
-          .then((_) {
-            setState(() {
-              _chewieController = ChewieController(
-                videoPlayerController: _controller!,
-                autoPlay: true,
-                looping: false,
-                errorBuilder: (context, errorMessage) {
-                  return _errorWidget();
-                },
-              );
-            });
-          })
-          .catchError((e) {
-            setState(() {
-              _error = 'لا يمكن تشغيل هذا الفيديو على جهازك';
-            });
-          });
-    } catch (e) {
-      setState(() {
-        _error = 'لا يمكن تشغيل هذا الفيديو على جهازك';
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _chewieController?.dispose();
-    _controller?.dispose();
-    super.dispose();
-  }
-
-  Widget _errorWidget() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'لا يمكن تشغيل هذا الفيديو على جهازك',
-          style: TextStyle(color: Colors.white, fontSize: 16),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 16),
-        ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-          icon: Icon(Icons.open_in_new),
-          label: Text('فتح الفيديو في تطبيق خارجي'),
-          onPressed: () async {
-            await OpenFile.open(widget.url);
-          },
-        ),
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_error != null) {
-      return Center(child: _errorWidget());
-    }
-    if (_chewieController == null || !_controller!.value.isInitialized) {
-      return Center(child: CircularProgressIndicator());
-    }
-    return Chewie(controller: _chewieController!);
   }
 }
